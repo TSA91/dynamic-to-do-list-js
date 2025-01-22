@@ -15,19 +15,20 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        // Create new list item
+        // Create new list item with text node
         const li = document.createElement('li');
-        li.textContent = taskText;
+        const textNode = document.createTextNode(taskText);
+        li.appendChild(textNode);
 
         // Create remove button
         const removeButton = document.createElement('button');
         removeButton.textContent = "Remove";
         removeButton.className = 'remove-btn';
         
-        // Add click event to remove button
-        removeButton.onclick = function() {
-            taskList.removeChild(li);
-        };
+        // Add click event to remove button using addEventListener
+        removeButton.addEventListener('click', function() {
+            li.remove(); // Using the modern remove() method
+        });
 
         // Append remove button to list item
         li.appendChild(removeButton);
@@ -37,6 +38,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Clear input field
         taskInput.value = "";
+
+        // Focus back on the input field
+        taskInput.focus();
     }
 
     // Add click event listener to the add button
@@ -45,6 +49,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add keypress event listener to input field
     taskInput.addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
+            event.preventDefault(); // Prevent form submission if within a form
             addTask();
         }
     });
